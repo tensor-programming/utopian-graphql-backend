@@ -1,10 +1,10 @@
 import { Message, User, Group } from '../model'
 
 export const groupResolve = {
-  members (obj) {
-    return User.find({ _groups: { $in: obj._id } })
+  async members (obj) {
+    return User.find({ groups: { $in: [obj._id] } }).exec()
   },
-  messages (obj) {
+  async messages (obj) {
     return Message.find({
       toGroup: obj._id
     }).sort({ createdAt: -1 })
@@ -12,10 +12,10 @@ export const groupResolve = {
 }
 
 export const messageResolve = {
-  from (obj) {
+  async from (obj) {
     return User.findById(obj.from)
   },
-  toGroup (obj) {
+  async toGroup (obj) {
     return Group.findById(obj.toGroup)
   }
 }
