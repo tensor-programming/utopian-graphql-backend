@@ -24,7 +24,7 @@ const server = createServer(app)
 /* eslint-disable no-new */
 new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
 
-app.use('graphql', graphqlExpress(request => {
+app.use('/graphql', graphqlExpress(request => {
   const query = request.query.query || request.body.query
   if (query && query.length > 2000) {
     throw new Error('Query too large.')

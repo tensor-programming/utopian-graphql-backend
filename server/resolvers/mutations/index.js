@@ -5,7 +5,7 @@ export const createUser = (obj, args, context) =>
   User.create({ steemName: args.name })
 
 export const createGroup = (obj, args, context) =>
-  Group.create({ name: args.name, member: [args.from] })
+  Group.create({ name: args.name }, { $addToSet: { members: args.from } })
     .then(group => User.update({ _id: args.from }, { $addToSet: { groups: group._id } })
       .then(() => group))
     .catch(e => {
