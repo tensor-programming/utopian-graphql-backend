@@ -3,7 +3,10 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const User = new Schema({
-  steemName: String,
+  steemName: {
+    type: String,
+    unique: true
+  },
   avatar: {
     type: String
   },

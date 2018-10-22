@@ -1,6 +1,6 @@
 type Group {
     _id: ID
-    name: String
+    name: String!
     members: [User]
     messages: [Message]
     createdAt: String
@@ -8,7 +8,7 @@ type Group {
 
 type User {
     _id: ID
-    steemName: String
+    steemName: String!
     avatar: String
     messages: [Message]
     groups: [Group]
@@ -34,6 +34,9 @@ type Query {
 type Mutation {
     createUser(name: String): User
     createGroup(name: String, from: String): Group
+
+    joinGroup(groupId: String, from: String): Group
+    leaveGroup(groupId: String, from: String): Group
 
     addMessage(content: String, from: String, groupId: String): Message
 }

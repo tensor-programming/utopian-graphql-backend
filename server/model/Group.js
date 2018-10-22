@@ -3,7 +3,10 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const Group = new Schema({
-  name: String,
+  name: {
+    type: String,
+    unique: true
+  },
   avatar: String,
   members: [{ type: Schema.Types.ObjectId, ref: 'user', default: [] }],
   messages: [{ type: Schema.Types.ObjectId, ref: 'message', default: [] }],

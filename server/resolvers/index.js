@@ -1,5 +1,5 @@
 import { allGroups, group, messagesByGroup, usersByGroup, findUser } from './query'
-import { createUser, createGroup, addMessage } from './mutations'
+import { createUser, createGroup, addMessage, joinGroup, leaveGroup } from './mutations'
 import { newMessage } from './subscriptions'
 import { messageResolve, groupResolve } from './associations'
 
@@ -16,7 +16,9 @@ export default {
   Mutation: {
     createUser,
     createGroup,
-    addMessage
+    addMessage,
+    joinGroup,
+    leaveGroup
   },
   Subscription: {
     newMessage

@@ -13,6 +13,24 @@ export const createGroup = async (obj, args, context) =>
       throw e
     })
 
+export const joinGroup = async (obj, args, context) => {
+  return Promise.all([
+    User.findByIdAndUpdate(args.from, { $addToSet: { groups: args.groupId } }),
+    Group.update({ _id: args.groupId }, { $addToSet: { members: args.from } })
+  ]).then((cols) => {
+    return Group.findById(args.groupId)
+  })
+}
+
+export const leaveGroup = async (obj, args, context) => {
+  return Promise.all([
+    User.findByIdAndUpdate(args.from, { $pull: { groups: args.groupId } }).exec(),
+    Group.update({ _id: args.groupId }, { $pull: { members: args.from } })
+  ]).then((cols) => {
+    return Group.findById(args.groupId)
+  })
+}
+
 export const addMessage = async (obj, args, context) => Message.create({
   content: args.content,
   from: args.from,
