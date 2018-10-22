@@ -1,6 +1,6 @@
 import { allGroups, group, messagesByGroup, usersByGroup, findUser } from './query'
 import { createUser, createGroup, addMessage, joinGroup, leaveGroup } from './mutations'
-import { newMessage } from './subscriptions'
+import { newMessage, peerJoined, peerLeft } from './subscriptions'
 import { messageResolve, groupResolve } from './associations'
 
 export default {
@@ -21,6 +21,8 @@ export default {
     leaveGroup
   },
   Subscription: {
-    newMessage
+    newMessage,
+    peerJoined,
+    peerLeft
   }
 }

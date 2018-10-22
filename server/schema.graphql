@@ -43,6 +43,8 @@ type Mutation {
 
 type Subscription {
     newMessage(groupId: String): Message 
+    peerJoined(groupId: String): String
+    peerLeft(groupId: String): String
 }
 
 schema {

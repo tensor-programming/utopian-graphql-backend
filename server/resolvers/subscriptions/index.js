@@ -9,3 +9,21 @@ export const newMessage = {
     }
   )
 }
+
+export const peerJoined = {
+  subscribe: withFilter(
+    async () => pubsub.asyncIterator('peerJoined'),
+    (payload, args) => {
+      return true
+    }
+  )
+}
+
+export const peerLeft = {
+  subscribe: withFilter(
+    async () => pubsub.asyncIterator('peerLeft'),
+    (payload, args) => {
+      return true
+    }
+  )
+}
