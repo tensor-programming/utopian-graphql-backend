@@ -34,8 +34,8 @@ type Query {
 
 type Mutation {
     createUser(name: String): User
-    addGroup(name: String, from: String): Group
-    createGroup(name: String): Group
+    createGroup(name: String, from: String): Group
+
     addMessage(content: String, from: String, groupId: String): Message
 }
 

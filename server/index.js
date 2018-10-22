@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 
 const server = createServer(app)
 
-/* eslint no-new: "error" */
+/* eslint-disable no-new */
 new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
 
 app.use('graphql', graphqlExpress(req => {

@@ -15,4 +15,8 @@ const User = new Schema({
   }
 })
 
+User.query.getGroupById = function (id) {
+  return this.groups.filter((group) => group._id === id)
+}
+
 export default mongoose.model('user', User)
