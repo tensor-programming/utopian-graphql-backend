@@ -1,10 +1,10 @@
 import { Group, Message, User } from '../../model'
-import pubsub from '../../pubsub'
+import { pubsub } from '../pubsub'
 
-export const createUser = (obj, args, context) =>
+export const createUser = async (obj, args, context) =>
   User.create({ steemName: args.name })
 
-export const createGroup = (obj, args, context) =>
+export const createGroup = async (obj, args, context) =>
   Group.create({ name: args.name, members: [args.from] })
     .then(group => User.updateOne({ _id: args.from }, { $addToSet: { groups: group._id } })
       .then(() => group))
@@ -13,7 +13,7 @@ export const createGroup = (obj, args, context) =>
       throw e
     })
 
-export const addMessage = (obj, args, context) => Message.create({
+export const addMessage = async (obj, args, context) => Message.create({
   content: args.content,
   from: args.from,
   toGroup: args.groupId

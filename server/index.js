@@ -22,7 +22,7 @@ app.use(bodyParser.json())
 const server = createServer(app)
 
 /* eslint-disable no-new */
-new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
+SubscriptionServer.create({ execute, subscribe, schema }, { server, path: '/subscriptions' })
 
 app.use('/graphql', graphqlExpress(request => {
   const query = request.query.query || request.body.query
@@ -38,7 +38,8 @@ app.use('/graphql', graphqlExpress(request => {
 }))
 
 app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql'
+  endpointURL: '/graphql',
+  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
 }))
 
 app.use('*', (req, res) => {

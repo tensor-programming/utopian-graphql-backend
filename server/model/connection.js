@@ -1,6 +1,12 @@
 import mongoose from 'mongoose'
 mongoose.Promise = require('bluebird')
 
+const { ObjectId } = mongoose.Types
+
+ObjectId.prototype.valueOf = function () {
+  return this.toString()
+}
+
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/u-chat'
 
 async function run () {
