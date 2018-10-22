@@ -16,20 +16,26 @@ export const createGroup = async (obj, args, context) =>
 export const joinGroup = async (obj, args, context) => {
   return Promise.all([
     User.findByIdAndUpdate(args.from, { $addToSet: { groups: args.groupId } }),
-    Group.update({ _id: args.groupId }, { $addToSet: { members: args.from } })
+    Group.updateOne({ _id: args.groupId }, { $addToSet: { members: args.from } })
   ]).then((cols) => {
     pubsub.publish('peerJoined', { peerJoined: args.from })
     return Group.findById(args.groupId)
+  }).catch(e => {
+    console.error(e)
+    throw e
   })
 }
 
 export const leaveGroup = async (obj, args, context) => {
   return Promise.all([
     User.findByIdAndUpdate(args.from, { $pull: { groups: args.groupId } }).exec(),
-    Group.update({ _id: args.groupId }, { $pull: { members: args.from } })
+    Group.updateOne({ _id: args.groupId }, { $pull: { members: args.from } })
   ]).then((cols) => {
     pubsub.publish('peerLeft', { peerLeft: args.from })
     return Group.findById(args.groupId)
+  }).catch(e => {
+    console.error(e)
+    throw e
   })
 }
 
