@@ -1,0 +1,48 @@
+type Group {
+    _id: ID
+    name: String
+    members: [User]
+    messages: [Message]
+    createdAt: DateTime
+}
+
+type User {
+    _id: ID
+    steemName: String
+    avatar: String
+    messages: [Message]
+    groups: [Group]
+    createdAt: DateTime
+}
+
+type Message {
+    content: String
+    from: User
+    toGroup: Group
+    createdAt: DateTime
+}
+
+type Query {
+    allGroups: [Group]
+    group(id: String): Group
+    messagesByGroup(groupId: String): [Message]
+    usersByGroup(groupId: String): [User]
+    findUser(id: String, name: String): User
+}
+
+type Mutation {
+    createUser(name: String): User
+    addGroup(name: String, from: String): Group
+    createGroup(name: String): Group
+    addMessage(content: String, from: String, groupId: String): Message
+}
+
+type Subscription {
+    newMessage(groupId: String): Message 
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
