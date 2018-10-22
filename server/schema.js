@@ -7,9 +7,9 @@ const schema = readFileSync(join(__dirname, './schema.graphql'), {
   encoding: 'utf8'
 })
 
-const executeSchema = makeExecutableSchema({
+const executableSchema = makeExecutableSchema({
   typeDefs: schema,
   resolvers
 })
 
-export default executeSchema
+export default executableSchema

@@ -18,7 +18,7 @@ export default {
     createGroup,
     addMessage
   },
-  Subscriptions: {
+  Subscription: {
     newMessage
   }
 }

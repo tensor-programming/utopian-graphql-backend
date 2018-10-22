@@ -4,7 +4,7 @@ mongoose.Promise = require('bluebird')
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/u-chat'
 
 async function run () {
-  await mongoose.connect(mongoUrl, { useMongoClient: true })
+  await mongoose.connect(mongoUrl, { useNewUrlParser: true })
     .then(() => console.log('Connected to Mongo'))
 }
 

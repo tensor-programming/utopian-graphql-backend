@@ -5,8 +5,8 @@ const { Schema } = mongoose
 const Group = new Schema({
   name: String,
   avatar: String,
-  members: [{ type: Schema.Types.ObjectId, ref: 'user' }],
-  messages: [{ type: Schema.Types.ObjectId, ref: 'message' }],
+  members: [{ type: Schema.Types.ObjectId, ref: 'user', default: [] }],
+  messages: [{ type: Schema.Types.ObjectId, ref: 'message', default: [] }],
   createdAt: {
     type: Date,
     default: Date.now

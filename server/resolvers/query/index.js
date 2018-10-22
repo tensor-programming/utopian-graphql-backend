@@ -16,5 +16,5 @@ export const usersByGroup = (obj, args, context) =>
 
 export const findUser = (obj, args, context) =>
   'name' in args
-    ? User.findOne({ 'steemName': args.name })
+    ? User.findOne({ steemName: args.name })
     : User.findById(args.id).exec()

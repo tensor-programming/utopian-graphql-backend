@@ -1,7 +1,7 @@
 import { Message, User, Group } from '../model'
 
 export const groupResolve = {
-  users (obj) {
+  members (obj) {
     return User.find({ _groups: { $in: obj._id } })
   },
   messages (obj) {
@@ -12,10 +12,10 @@ export const groupResolve = {
 }
 
 export const messageResolve = {
-  user (obj) {
+  from (obj) {
     return User.findById(obj.from)
   },
-  group (obj) {
+  toGroup (obj) {
     return Group.findById(obj.toGroup)
   }
 }

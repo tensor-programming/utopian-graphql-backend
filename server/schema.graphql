@@ -1,11 +1,9 @@
-scalar DateTime
-
 type Group {
     _id: ID
     name: String
     members: [User]
     messages: [Message]
-    createdAt: DateTime
+    createdAt: String
 }
 
 type User {
@@ -14,14 +12,14 @@ type User {
     avatar: String
     messages: [Message]
     groups: [Group]
-    createdAt: DateTime
+    createdAt: String
 }
 
 type Message {
     content: String
     from: User
     toGroup: Group
-    createdAt: DateTime
+    createdAt: String
 }
 
 type Query {

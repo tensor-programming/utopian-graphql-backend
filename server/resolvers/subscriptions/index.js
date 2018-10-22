@@ -1,5 +1,5 @@
 import { withFilter } from 'graphql-subscriptions'
-import { pubsub } from '../../subscriptions'
+import { pubsub } from '../../pubsub'
 
 export const newMessage = {
   subscribe: withFilter(

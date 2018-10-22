@@ -10,7 +10,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws'
 
 import schema from './schema'
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 6001
 
 const app = express()
 
@@ -24,12 +24,12 @@ const server = createServer(app)
 /* eslint-disable no-new */
 new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
 
-app.use('graphql', graphqlExpress(req => {
-  const query = req.query.query || req.body.query
+app.use('graphql', graphqlExpress(request => {
+  const query = request.query.query || request.body.query
   if (query && query.length > 2000) {
-    throw new Error('Query too large')
+    throw new Error('Query too large.')
   }
-  const { headers } = req
+  const { headers } = request
   return {
     context: { headers },
     rootValue: {},
