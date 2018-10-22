@@ -21,7 +21,8 @@ app.use(bodyParser.json())
 
 const server = createServer(app)
 
-const subServer = new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
+/* eslint no-new: "error" */
+new SubscriptionServer({ schema, execute, subscribe }, { server, path: '/subscriptions' })
 
 app.use('graphql', graphqlExpress(req => {
   const query = req.query.query || req.body.query
@@ -45,6 +46,5 @@ app.use('*', (req, res) => {
 })
 
 server.listen(PORT, () => {
-  subServer()
   console.log(`API Server is now running on http://localhost:${PORT}`)
 })
