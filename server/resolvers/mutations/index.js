@@ -44,6 +44,12 @@ export const addMessage = async (obj, args, context) => Message.create({
   from: args.from,
   toGroup: args.groupId
 }).then((msg) => {
+  Promise.all([
+    Group.findByIdAndUpdate(args.groupId, { $addToSet: { messages: msg._id } }).exec(),
+    User.findByIdAndUpdate(args.from, { $addToSet: { messages: msg._id } }).exec()
+  ])
+  return msg
+}).then((msg) => {
   pubsub.publish('newMessage', { newMessage: msg })
   return msg
 }).catch(e => {

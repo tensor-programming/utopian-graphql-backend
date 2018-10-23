@@ -3,16 +3,17 @@ import { pubsub } from '../pubsub'
 
 export const newMessage = {
   subscribe: withFilter(
-    async () => pubsub.asyncIterator('newMessage'),
+    () => pubsub.asyncIterator('newMessage'),
     (payload, args) => {
-      return payload.newMessage.toGroup === args.groupId
+      console.log(payload.newMessage)
+      return payload.newMessage.toGroup.toString() === args.groupId.toString()
     }
   )
 }
 
 export const peerJoined = {
   subscribe: withFilter(
-    async () => pubsub.asyncIterator('peerJoined'),
+    () => pubsub.asyncIterator('peerJoined'),
     (payload, args) => {
       return true
     }
@@ -21,7 +22,7 @@ export const peerJoined = {
 
 export const peerLeft = {
   subscribe: withFilter(
-    async () => pubsub.asyncIterator('peerLeft'),
+    () => pubsub.asyncIterator('peerLeft'),
     (payload, args) => {
       return true
     }
