@@ -1,51 +1,26 @@
 import { createServer } from 'http'
 import express from 'express'
-import bodyParser from 'body-parser'
-import compress from 'compression'
-import cors from 'cors'
 
-import { execute, subscribe } from 'graphql'
-import { graphiqlExpress, graphqlExpress } from 'graphql-server-express'
-import { SubscriptionServer } from 'subscriptions-transport-ws'
-
-import schema from './schema'
+import { typeDefs } from './types'
+import resolvers from './resolvers'
+import { ApolloServer } from 'apollo-server-express'
 
 const PORT = process.env.PORT || 6001
 
 const app = express()
 
-app.use(cors())
-app.use(compress())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
-const server = createServer(app)
-
-/* eslint-disable no-new */
-SubscriptionServer.create({ execute, subscribe, schema }, { server, path: '/subscriptions' })
-
-app.use('/graphql', graphqlExpress(request => {
-  const query = request.query.query || request.body.query
-  if (query && query.length > 2000) {
-    throw new Error('Query too large.')
-  }
-  const { headers } = request
-  return {
-    context: { headers },
-    rootValue: {},
-    schema
-  }
-}))
-
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
-}))
-
-app.use('*', (req, res) => {
-  res.redirect('/graphiql')
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers
 })
 
-server.listen(PORT, () => {
-  console.log(`API Server is now running on http://localhost:${PORT}`)
+apollo.applyMiddleware({ app })
+
+const httpServer = createServer(app)
+
+apollo.installSubscriptionHandlers(httpServer)
+
+httpServer.listen({ port: PORT }, () => {
+  console.log(`server ready at http://localhost:${PORT}${apollo.graphqlPath}`)
+  console.log(`Subscriptions ready at ws://localhost:${PORT}${apollo.subscriptionsPath}`)
 })
