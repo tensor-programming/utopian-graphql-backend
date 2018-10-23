@@ -18,7 +18,7 @@ export const joinGroup = async (obj, args, context) => {
     User.findByIdAndUpdate(args.from, { $addToSet: { groups: args.groupId } }),
     Group.updateOne({ _id: args.groupId }, { $addToSet: { members: args.from } })
   ]).then((cols) => {
-    pubsub.publish('peerJoined', { peerJoined: args.from })
+    pubsub.publish('peerJoined', { peerJoined: `User ${args.from} joined the group ${args.groupId}` })
     return Group.findById(args.groupId)
   }).catch(e => {
     console.error(e)
@@ -31,7 +31,7 @@ export const leaveGroup = async (obj, args, context) => {
     User.findByIdAndUpdate(args.from, { $pull: { groups: args.groupId } }).exec(),
     Group.updateOne({ _id: args.groupId }, { $pull: { members: args.from } })
   ]).then((cols) => {
-    pubsub.publish('peerLeft', { peerLeft: args.from })
+    pubsub.publish('peerLeft', { peerLeft: `User ${args.from} left the group ${args.groupId}` })
     return Group.findById(args.groupId)
   }).catch(e => {
     console.error(e)
